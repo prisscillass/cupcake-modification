@@ -16,18 +16,35 @@
 package com.example.cupcake.data
 
 /**
- * Data class that represents the current UI state in terms of [quantity], [flavor],
- * [dateOptions], selected pickup [date] and [price]
+ * Data class yang merepresentasikan state pemilihan komputer/notebook:
+ * [deviceType], [processor], [ram], [storage], [graphics], [monitor], dan perkiraan [price].
  */
 data class OrderUiState(
-    /** Selected cupcake quantity (1, 6, 12) */
-    val quantity: Int = 0,
-    /** Flavor of the cupcakes in the order (such as "Chocolate", "Vanilla", etc..) */
+    /** Tipe komputer / notebook yang dipilih (misal: "Notebook / Laptop", "Komputer PC Desktop") */
+    val deviceType: String = "",
+    /** Harga dasar tipe perangkat */
+    val basePrice: Long = 0L,
+    /** Pilihan 1: Jenis prosesor */
+    val processor: String = "",
+    val processorPrice: Long = 0L,
+    /** Pilihan 2: Besar memori (RAM) */
+    val ram: String = "",
+    val ramPrice: Long = 0L,
+    /** Pilihan 3: Ukuran dan tipe hardisk (Storage) */
+    val storage: String = "",
+    val storagePrice: Long = 0L,
+    /** Pilihan 4: Tipe kartu grafis (GPU) */
+    val graphics: String = "",
+    val graphicsPrice: Long = 0L,
+    /** Pilihan 5: Ukuran monitor */
+    val monitor: String = "",
+    val monitorPrice: Long = 0L,
+    /** Perkiraan total harga yang telah diformat (misal: "Rp 15.500.000") */
+    val price: String = "Rp 0",
+
+    // Backward compatibility fields:
+    val quantity: Int = 1,
     val flavor: String = "",
-    /** Selected date for pickup (such as "Jan 1") */
     val date: String = "",
-    /** Total price for the order */
-    val price: String = "",
-    /** Available pickup dates for the order*/
     val pickupOptions: List<String> = listOf()
 )

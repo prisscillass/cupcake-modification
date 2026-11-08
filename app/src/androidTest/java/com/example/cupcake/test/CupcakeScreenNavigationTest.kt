@@ -15,12 +15,10 @@
  */
 package com.example.cupcake.test
 
-import android.icu.util.Calendar
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
@@ -30,15 +28,9 @@ import com.example.cupcake.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class CupcakeScreenNavigationTest {
 
-    /**
-     * Note: To access to an empty activity, the code uses ComponentActivity instead of
-     * MainActivity.
-     */
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -66,98 +58,72 @@ class CupcakeScreenNavigationTest {
     }
 
     @Test
-    fun cupcakeNavHost_clickOneCupcake_navigatesToSelectFlavorScreen() {
-        composeTestRule.onNodeWithStringId(R.string.one_cupcake)
+    fun cupcakeNavHost_clickDevice_navigatesToProcessorScreen() {
+        composeTestRule.onNodeWithStringId(R.string.device_notebook)
             .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
+        navController.assertCurrentRouteName(CupcakeScreen.Processor.name)
     }
 
     @Test
-    fun cupcakeNavHost_clickNextOnFlavorScreen_navigatesToPickupScreen() {
-        navigateToFlavorScreen()
+    fun cupcakeNavHost_clickNextOnProcessorScreen_navigatesToRamScreen() {
+        navigateToProcessorScreen()
         composeTestRule.onNodeWithStringId(R.string.next)
             .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Pickup.name)
+        navController.assertCurrentRouteName(CupcakeScreen.Ram.name)
     }
 
     @Test
-    fun cupcakeNavHost_clickBackOnFlavorScreen_navigatesToStartOrderScreen() {
-        navigateToFlavorScreen()
+    fun cupcakeNavHost_clickBackOnProcessorScreen_navigatesToStartOrderScreen() {
+        navigateToProcessorScreen()
         performNavigateUp()
         navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
 
     @Test
-    fun cupcakeNavHost_clickCancelOnFlavorScreen_navigatesToStartOrderScreen() {
-        navigateToFlavorScreen()
+    fun cupcakeNavHost_clickCancelOnProcessorScreen_navigatesToStartOrderScreen() {
+        navigateToProcessorScreen()
         composeTestRule.onNodeWithStringId(R.string.cancel)
             .performClick()
         navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
 
     @Test
-    fun cupcakeNavHost_clickNextOnPickupScreen_navigatesToSummaryScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithText(getFormattedDate())
-            .performClick()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
+    fun cupcakeNavHost_fullFlowToSummaryScreen() {
+        navigateToProcessorScreen()
+        // Ke RAM
+        composeTestRule.onNodeWithStringId(R.string.next).performClick()
+        composeTestRule.onNodeWithStringId(R.string.ram_16gb).performClick()
+        // Ke Storage
+        composeTestRule.onNodeWithStringId(R.string.next).performClick()
+        composeTestRule.onNodeWithStringId(R.string.storage_1tb_ssd).performClick()
+        // Ke Graphics
+        composeTestRule.onNodeWithStringId(R.string.next).performClick()
+        composeTestRule.onNodeWithStringId(R.string.gpu_rtx4060).performClick()
+        // Ke Monitor
+        composeTestRule.onNodeWithStringId(R.string.next).performClick()
+        composeTestRule.onNodeWithStringId(R.string.monitor_24_144hz).performClick()
+        // Ke Summary
+        composeTestRule.onNodeWithStringId(R.string.next).performClick()
         navController.assertCurrentRouteName(CupcakeScreen.Summary.name)
     }
 
     @Test
-    fun cupcakeNavHost_clickBackOnPickupScreen_navigatesToFlavorScreen() {
-        navigateToPickupScreen()
-        performNavigateUp()
-        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
-    }
-
-    @Test
-    fun cupcakeNavHost_clickCancelOnPickupScreen_navigatesToStartOrderScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithStringId(R.string.cancel)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
-    }
-
-    @Test
     fun cupcakeNavHost_clickCancelOnSummaryScreen_navigatesToStartOrderScreen() {
-        navigateToSummaryScreen()
+        cupcakeNavHost_fullFlowToSummaryScreen()
         composeTestRule.onNodeWithStringId(R.string.cancel)
             .performClick()
         navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
 
-    private fun navigateToFlavorScreen() {
-        composeTestRule.onNodeWithStringId(R.string.one_cupcake)
+    private fun navigateToProcessorScreen() {
+        composeTestRule.onNodeWithStringId(R.string.device_notebook)
             .performClick()
-        composeTestRule.onNodeWithStringId(R.string.chocolate)
-            .performClick()
-    }
-
-    private fun navigateToPickupScreen() {
-        navigateToFlavorScreen()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
-    }
-
-    private fun navigateToSummaryScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithText(getFormattedDate())
-            .performClick()
-        composeTestRule.onNodeWithStringId(R.string.next)
+        composeTestRule.onNodeWithStringId(R.string.proc_i5)
             .performClick()
     }
 
     private fun performNavigateUp() {
         val backText = composeTestRule.activity.getString(R.string.back_button)
         composeTestRule.onNodeWithContentDescription(backText).performClick()
-    }
-
-    private fun getFormattedDate(): String {
-        val calendar = Calendar.getInstance()
-        calendar.add(java.util.Calendar.DATE, 1)
-        val formatter = SimpleDateFormat("E MMM d", Locale.getDefault())
-        return formatter.format(calendar.time)
     }
 }

@@ -33,64 +33,54 @@ import org.junit.Test
 
 class CupcakeOrderScreenTest {
 
-    /**
-     * Note: To access to an empty activity, the code uses ComponentActivity instead of
-     * MainActivity.
-     */
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val fakeOrderUiState = OrderUiState(
-        quantity = 6,
-        flavor = "Vanilla",
-        date = "Wed Jul 21",
-        price = "$100",
-        pickupOptions = listOf()
+        deviceType = "Notebook / Laptop",
+        processor = "Intel Core i5-13400",
+        ram = "16 GB DDR5",
+        storage = "1 TB SSD NVMe",
+        graphics = "NVIDIA GeForce RTX 4060",
+        monitor = "24\" FHD 144Hz",
+        price = "Rp 16.500.000",
+        flavor = "Intel Core i5-13400",
+        date = "24\" FHD 144Hz"
     )
 
     /**
-     * When quantity options are provided to StartOrderScreen, the options are displayed on the
-     * screen.
+     * Memverifikasi opsi tipe perangkat tampil di layar awal (StartOrderScreen).
      */
     @Test
     fun startOrderScreen_verifyContent() {
-
-        // When StartOrderScreen is loaded
         composeTestRule.setContent {
             StartOrderScreen(
-                quantityOptions = DataSource.quantityOptions,
-                onNextButtonClicked = {}
+                deviceOptions = DataSource.deviceOptions,
+                onNextButtonClicked = { _, _ -> }
             )
         }
 
-        // Then all the options are displayed on the screen.
-        DataSource.quantityOptions.forEach {
+        DataSource.deviceOptions.forEach {
             composeTestRule.onNodeWithStringId(it.first).assertIsDisplayed()
         }
     }
 
     /**
-     * When list of options and subtotal are provided to SelectOptionScreen,the options and subtotal
-     * are displayed on the screen and the next button is disabled.
+     * Memverifikasi opsi dan perkiraan harga sementara pada SelectOptionScreen.
      */
     @Test
     fun selectOptionScreen_verifyContent() {
-        // Given list of options
-        val flavors = listOf("Vanilla", "Chocolate", "Hazelnut", "Cookie", "Mango")
-        // And subtotal
-        val subtotal = "$100"
+        val options = listOf("Opsi A", "Opsi B", "Opsi C")
+        val subtotal = "Rp 10.000.000"
 
-        // When SelectOptionScreen is loaded
         composeTestRule.setContent {
-            SelectOptionScreen(subtotal = subtotal, options = flavors)
+            SelectOptionScreen(subtotal = subtotal, options = options)
         }
 
-        // Then all the options are displayed on the screen.
-        flavors.forEach { flavor ->
-            composeTestRule.onNodeWithText(flavor).assertIsDisplayed()
+        options.forEach { option ->
+            composeTestRule.onNodeWithText(option).assertIsDisplayed()
         }
 
-        // And then the subtotal is displayed correctly.
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(
                 R.string.subtotal_price,
@@ -98,40 +88,30 @@ class CupcakeOrderScreenTest {
             )
         ).assertIsDisplayed()
 
-        // And then the next button is disabled
         composeTestRule.onNodeWithStringId(R.string.next).assertIsNotEnabled()
     }
 
     /**
-     * When list of options and subtotal are provided to SelectOptionScreen, and one of the option
-     * is selected, then the next button is enabled.
+     * Memverifikasi tombol lanjut aktif ketika salah satu opsi dipilih.
      */
     @Test
     fun selectOptionScreen_optionSelected_NextButtonEnabled() {
-        // Given list of options
-        val flavours = listOf("Vanilla", "Chocolate", "Hazelnut", "Cookie", "Mango")
-        // And sub total
-        val subTotal = "$100"
+        val options = listOf("Opsi A", "Opsi B", "Opsi C")
+        val subTotal = "Rp 10.000.000"
 
-        // When SelectOptionScreen is loaded
         composeTestRule.setContent {
-            SelectOptionScreen(subtotal = subTotal, options = flavours)
+            SelectOptionScreen(subtotal = subTotal, options = options)
         }
 
-        // And one option is selected
-        composeTestRule.onNodeWithText("Vanilla").performClick()
-
-        // Then the next button is disabled
+        composeTestRule.onNodeWithText("Opsi A").performClick()
         composeTestRule.onNodeWithStringId(R.string.next).assertIsEnabled()
     }
 
     /**
-     * When a OrderUiState is provided to Summary Screen, then the flavor, date and subtotal is
-     * displayed on the screen.
+     * Memverifikasi bahwa data pesanan ditampilkan dengan benar pada OrderSummaryScreen.
      */
     @Test
     fun summaryScreen_verifyContentDisplay() {
-        // When Summary Screen is loaded
         composeTestRule.setContent {
             OrderSummaryScreen(
                 orderUiState = fakeOrderUiState,
@@ -140,9 +120,8 @@ class CupcakeOrderScreenTest {
             )
         }
 
-        // Then the UI is updated correctly.
-        composeTestRule.onNodeWithText(fakeOrderUiState.flavor).assertIsDisplayed()
-        composeTestRule.onNodeWithText(fakeOrderUiState.date).assertIsDisplayed()
+        composeTestRule.onNodeWithText(fakeOrderUiState.processor).assertIsDisplayed()
+        composeTestRule.onNodeWithText(fakeOrderUiState.monitor).assertIsDisplayed()
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(
                 R.string.subtotal_price,

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2023 The Android Open Source Project
 
@@ -14,33 +15,94 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">Cupcake</string>
-    <string name="order_cupcakes">Order Cupcakes</string>
-    <string name="one_cupcake">One Cupcake</string>
-    <string name="six_cupcakes">Six Cupcakes</string>
-    <string name="twelve_cupcakes">Twelve Cupcakes</string>
-    <string name="choose_flavor">Choose Flavor</string>
-    <string name="vanilla">Vanilla</string>
-    <string name="chocolate">Chocolate</string>
-    <string name="red_velvet">Red Velvet</string>
-    <string name="salted_caramel">Salted Caramel</string>
-    <string name="coffee">Coffee</string>
-    <string name="special_flavor">Special Flavor</string>
-    <string name="cancel">Cancel</string>
-    <string name="next">Next</string>
-    <string name="choose_pickup_date">Choose Pickup Date</string>
-    <string name="order_summary">Order Summary</string>
-    <string name="send">Send Order to Another App</string>
-    <string name="quantity">Quantity</string>
-    <string name="flavor">Flavor</string>
-    <string name="pickup_date">Pickup date</string>
-    <string name="subtotal_price">Subtotal %s</string>
-    <string name="total_price">Total %s</string>
-    <string name="new_cupcake_order">New Cupcake Order</string>
-    <string name="order_details">Quantity: %1$s \nFlavor: %2$s \nPickup date: %3$s \nTotal: %4$s \n\nThank you!</string>
-    <string name="back_button">Back</string>
+    <!-- App & Store Branding -->
+    <string name="app_name">Andre\'s Computer</string>
+    <string name="store_name">Andre\'s Computer Store</string>
+    <string name="order_computer">Pilih Komputer / Notebook</string>
+    <string name="order_computer_desc">Kustomisasi spesifikasi PC Desktop atau Notebook sesuai kebutuhan Anda</string>
+    <string name="back_button">Kembali</string>
+    <string name="cancel">Batal</string>
+    <string name="next">Berikutnya</string>
+
+    <!-- Pilihan Tipe Perangkat di Layar Awal -->
+    <string name="device_notebook">Notebook / Laptop</string>
+    <string name="device_desktop">Komputer PC Desktop</string>
+    <string name="device_gaming">PC / Notebook Gaming</string>
+
+    <!-- Judul Layar Pemilihan (Screen Titles) -->
+    <string name="choose_processor">Pilih Jenis Prosesor</string>
+    <string name="choose_ram">Pilih Besar Memori (RAM)</string>
+    <string name="choose_storage">Pilih Ukuran &amp; Tipe Hardisk</string>
+    <string name="choose_graphics">Pilih Tipe Kartu Grafis (GPU)</string>
+    <string name="choose_monitor">Pilih Ukuran Monitor</string>
+    <string name="order_summary">Perkiraan Harga &amp; Spesifikasi</string>
+
+    <!-- 1. Opsi Jenis Prosesor -->
+    <string name="proc_i3">Intel Core i3-13100 (4C/8T up to 4.5 GHz)</string>
+    <string name="proc_r5">AMD Ryzen 5 5600X (6C/12T up to 4.6 GHz)</string>
+    <string name="proc_i5">Intel Core i5-13400 (10C/16T up to 4.6 GHz)</string>
+    <string name="proc_r7">AMD Ryzen 7 7700X (8C/16T up to 5.4 GHz)</string>
+    <string name="proc_i7">Intel Core i7-13700K (16C/24T up to 5.4 GHz)</string>
+
+    <!-- 2. Opsi Besar Memori (RAM) -->
+    <string name="ram_8gb">8 GB DDR4 / DDR5 High Speed</string>
+    <string name="ram_16gb">16 GB DDR4 / DDR5 Dual Channel</string>
+    <string name="ram_32gb">32 GB DDR5 5600MHz Dual Channel</string>
+    <string name="ram_64gb">64 GB DDR5 6000MHz Pro Workstation</string>
+
+    <!-- 3. Opsi Ukuran & Tipe Hardisk (Storage) -->
+    <string name="storage_512gb_ssd">SSD NVMe M.2 512 GB PCIe 4.0</string>
+    <string name="storage_1tb_ssd">SSD NVMe M.2 1 TB PCIe 4.0 High Speed</string>
+    <string name="storage_2tb_ssd">SSD NVMe M.2 2 TB PCIe 4.0 Ultra Speed</string>
+    <string name="storage_dual">Dual: 512 GB SSD NVMe + 1 TB HDD 7200 RPM</string>
+
+    <!-- 4. Opsi Tipe Kartu Grafis (GPU) -->
+    <string name="gpu_integrated">Integrated Graphics (Intel UHD / Radeon)</string>
+    <string name="gpu_gtx1650">NVIDIA GeForce GTX 1650 4 GB GDDR6</string>
+    <string name="gpu_rtx3060">NVIDIA GeForce RTX 3060 12 GB GDDR6</string>
+    <string name="gpu_rtx4060">NVIDIA GeForce RTX 4060 8 GB GDDR6</string>
+    <string name="gpu_rtx4070">NVIDIA GeForce RTX 4070 12 GB GDDR6X</string>
+
+    <!-- 5. Opsi Ukuran Monitor -->
+    <string name="monitor_14_fhd">14\" FHD IPS Display (Standar Notebook)</string>
+    <string name="monitor_22_fhd">22\" FHD 75Hz Slim Borderless Display</string>
+    <string name="monitor_24_144hz">24\" FHD 144Hz Fast IPS Gaming Monitor</string>
+    <string name="monitor_27_2k">27\" 2K QHD 165Hz IPS Professional Monitor</string>
+    <string name="monitor_32_4k">32\" 4K UHD Curved Display</string>
+
+    <!-- Labels for Summary -->
+    <string name="device_type_label">Tipe Komputer / Notebook</string>
+    <string name="processor_label">Jenis Prosesor</string>
+    <string name="ram_label">Besar Memori (RAM)</string>
+    <string name="storage_label">Ukuran &amp; Tipe Hardisk</string>
+    <string name="graphics_label">Tipe Kartu Grafis (GPU)</string>
+    <string name="monitor_label">Ukuran Monitor</string>
+
+    <string name="subtotal_price">Perkiraan Harga: %s</string>
+    <string name="total_price">Total: %s</string>
+    <string name="send">Kirim / Bagikan Rincian Pesanan</string>
+    <string name="new_computer_order">Pesanan Baru - Andre\'s Computer Store</string>
+    <string name="order_details">==============================\nPESANAN KOMPUTER / NOTEBOOK\nToko: Andre\'s Computer Store\n==============================\n\n- Tipe Perangkat: %1$s\n- Prosesor: %2$s\n- Memori (RAM): %3$s\n- Hardisk / SSD: %4$s\n- Kartu Grafis: %5$s\n- Ukuran Monitor: %6$s\n\n------------------------------\nPERKIRAAN TOTAL HARGA: %7$s\n==============================\nTerima kasih atas pesanan Anda!</string>
+
+    <!-- Legacy / Compatibility strings -->
+    <string name="order_cupcakes">Pilih Komputer / Notebook</string>
+    <string name="one_cupcake">Notebook / Laptop</string>
+    <string name="six_cupcakes">Komputer PC Desktop</string>
+    <string name="twelve_cupcakes">PC / Notebook Gaming</string>
+    <string name="choose_flavor">Pilih Jenis Prosesor</string>
+    <string name="vanilla">Intel Core i3-13100 (4C/8T up to 4.5 GHz)</string>
+    <string name="chocolate">AMD Ryzen 5 5600X (6C/12T up to 4.6 GHz)</string>
+    <string name="red_velvet">Intel Core i5-13400 (10C/16T up to 4.6 GHz)</string>
+    <string name="salted_caramel">AMD Ryzen 7 7700X (8C/16T up to 5.4 GHz)</string>
+    <string name="coffee">Intel Core i7-13700K (16C/24T up to 5.4 GHz)</string>
+    <string name="special_flavor">Prosesor Khusus</string>
+    <string name="choose_pickup_date">Pilih Ukuran Monitor</string>
+    <string name="quantity">Tipe Perangkat</string>
+    <string name="flavor">Jenis Prosesor</string>
+    <string name="pickup_date">Ukuran Monitor</string>
+    <string name="new_cupcake_order">Pesanan Komputer Baru</string>
     <plurals name="cupcakes">
-        <item quantity="one">%d cupcake</item>
-        <item quantity="other">%d cupcakes</item>
+        <item quantity="one">%d Unit Perangkat</item>
+        <item quantity="other">%d Unit Perangkat</item>
     </plurals>
 </resources>

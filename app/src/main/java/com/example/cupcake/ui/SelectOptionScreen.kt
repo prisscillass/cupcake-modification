@@ -42,21 +42,20 @@ import com.example.cupcake.ui.components.FormattedPriceLabel
 import com.example.cupcake.ui.theme.CupcakeTheme
 
 /**
- * Composable that displays the list of items as [RadioButton] options,
- * [onSelectionChanged] lambda that notifies the parent composable when a new value is selected,
- * [onCancelButtonClicked] lambda that cancels the order when user clicks cancel and
- * [onNextButtonClicked] lambda that triggers the navigation to next screen
+ * Komponen layar generik untuk memilih salah satu opsi spesifikasi (Radio Button),
+ * menampilkan perkiraan harga sementara (subtotal), tombol Batal dan tombol Lanjut.
  */
 @Composable
 fun SelectOptionScreen(
     subtotal: String,
     options: List<String>,
+    initialSelection: String = "",
     onSelectionChanged: (String) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedValue by rememberSaveable { mutableStateOf("") }
+    var selectedValue by rememberSaveable { mutableStateOf(initialSelection) }
 
     Column(
         modifier = modifier,
@@ -65,13 +64,16 @@ fun SelectOptionScreen(
         Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
             options.forEach { item ->
                 Row(
-                    modifier = Modifier.selectable(
-                        selected = selectedValue == item,
-                        onClick = {
-                            selectedValue = item
-                            onSelectionChanged(item)
-                        }
-                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectable(
+                            selected = selectedValue == item,
+                            onClick = {
+                                selectedValue = item
+                                onSelectionChanged(item)
+                            }
+                        )
+                        .padding(vertical = dimensionResource(R.dimen.padding_small)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
@@ -81,12 +83,18 @@ fun SelectOptionScreen(
                             onSelectionChanged(item)
                         }
                     )
-                    Text(item)
+                    Text(
+                        text = item,
+                        modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_small))
+                    )
                 }
             }
             Divider(
                 thickness = dimensionResource(R.dimen.thickness_divider),
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.padding_small),
+                    bottom = dimensionResource(R.dimen.padding_medium)
+                )
             )
             FormattedPriceLabel(
                 subtotal = subtotal,
@@ -113,7 +121,7 @@ fun SelectOptionScreen(
             }
             Button(
                 modifier = Modifier.weight(1f),
-                // the button is enabled when the user makes a selection
+                // tombol aktif jika salah satu opsi telah dipilih
                 enabled = selectedValue.isNotEmpty(),
                 onClick = onNextButtonClicked
             ) {
@@ -121,7 +129,6 @@ fun SelectOptionScreen(
             }
         }
     }
-
 }
 
 @Preview
@@ -129,8 +136,8 @@ fun SelectOptionScreen(
 fun SelectOptionPreview() {
     CupcakeTheme {
         SelectOptionScreen(
-            subtotal = "299.99",
-            options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
+            subtotal = "Rp 12.500.000",
+            options = listOf("Opsi 1", "Opsi 2", "Opsi 3", "Opsi 4"),
             modifier = Modifier.fillMaxHeight()
         )
     }

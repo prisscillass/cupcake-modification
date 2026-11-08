@@ -25,12 +25,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,9 +41,8 @@ import com.example.cupcake.ui.components.FormattedPriceLabel
 import com.example.cupcake.ui.theme.CupcakeTheme
 
 /**
- * This composable expects [orderUiState] that represents the order state, [onCancelButtonClicked]
- * lambda that triggers canceling the order and passes the final order to [onSendButtonClicked]
- * lambda
+ * Layar ringkasan pesanan komputer/notebook:
+ * Menampilkan semua spesifikasi yang dipilih dan perkiraan total harga.
  */
 @Composable
 fun OrderSummaryScreen(
@@ -52,30 +51,30 @@ fun OrderSummaryScreen(
     onSendButtonClicked: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val resources = LocalContext.current.resources
+    val processorText = orderUiState.processor.ifEmpty { orderUiState.flavor }
+    val monitorText = orderUiState.monitor.ifEmpty { orderUiState.date }
 
-    val numberOfCupcakes = resources.getQuantityString(
-        R.plurals.cupcakes,
-        orderUiState.quantity,
-        orderUiState.quantity
-    )
-    //Load and format a string resource with the parameters.
+    // Format teks detail pesanan untuk dibagikan / dikirim
     val orderSummary = stringResource(
         R.string.order_details,
-        numberOfCupcakes,
-        orderUiState.flavor,
-        orderUiState.date,
-        orderUiState.quantity
+        orderUiState.deviceType.ifEmpty { "-" },
+        processorText.ifEmpty { "-" },
+        orderUiState.ram.ifEmpty { "-" },
+        orderUiState.storage.ifEmpty { "-" },
+        orderUiState.graphics.ifEmpty { "-" },
+        monitorText.ifEmpty { "-" },
+        orderUiState.price
     )
-    val newOrder = stringResource(R.string.new_cupcake_order)
-    //Create a list of order summary to display
+    val newOrder = stringResource(R.string.new_computer_order)
+
+    // Daftar rincian spesifikasi untuk ditampilkan pada layar
     val items = listOf(
-        // Summary line 1: display selected quantity
-        Pair(stringResource(R.string.quantity), numberOfCupcakes),
-        // Summary line 2: display selected flavor
-        Pair(stringResource(R.string.flavor), orderUiState.flavor),
-        // Summary line 3: display selected pickup date
-        Pair(stringResource(R.string.pickup_date), orderUiState.date)
+        Pair(stringResource(R.string.device_type_label), orderUiState.deviceType),
+        Pair(stringResource(R.string.processor_label), processorText),
+        Pair(stringResource(R.string.ram_label), orderUiState.ram),
+        Pair(stringResource(R.string.storage_label), orderUiState.storage),
+        Pair(stringResource(R.string.graphics_label), orderUiState.graphics),
+        Pair(stringResource(R.string.monitor_label), monitorText)
     )
 
     Column(
@@ -87,8 +86,16 @@ fun OrderSummaryScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ) {
             items.forEach { item ->
-                Text(item.first.uppercase())
-                Text(text = item.second, fontWeight = FontWeight.Bold)
+                Text(
+                    text = item.first.uppercase(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Text(
+                    text = item.second.ifEmpty { "-" },
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
+                )
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider))
             }
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
@@ -125,8 +132,16 @@ fun OrderSummaryScreen(
 fun OrderSummaryPreview() {
     CupcakeTheme {
         OrderSummaryScreen(
-            orderUiState = OrderUiState(0, "Test", "Test", "$300.00"),
-            onSendButtonClicked = { subject: String, summary: String -> },
+            orderUiState = OrderUiState(
+                deviceType = "Notebook / Laptop",
+                processor = "Intel Core i5-13400",
+                ram = "16 GB DDR5 Dual Channel",
+                storage = "SSD NVMe M.2 1 TB PCIe 4.0",
+                graphics = "NVIDIA GeForce RTX 4060 8 GB GDDR6",
+                monitor = "14\" FHD IPS Display",
+                price = "Rp 16.500.000"
+            ),
+            onSendButtonClicked = { _, _ -> },
             onCancelButtonClicked = {},
             modifier = Modifier.fillMaxHeight()
         )
